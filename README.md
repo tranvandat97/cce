@@ -7,7 +7,7 @@ Manage named configs with different endpoints, API keys, and models — then lau
 ## Install
 
 ```bash
-npm install -g cce
+npm install -g @dattranx/cce
 ```
 
 Or for local development:
@@ -24,18 +24,21 @@ Requires Node.js >= 18 and Claude Code CLI installed.
 
 ```bash
 # Create a config
-cce init
+cce create
 
 # Launch claude with that config
 cce glm
 
-# Pass any claude flags through
-cce glm --chat --model glm-5.0
+# Pass any claude flags through 
+cce glm --dangerously-skip-permissions
+
+# Shorthands flags
+cce glm -sp 
 ```
 
 ## Commands
 
-### `cce init`
+### `cce create`
 
 Create or update a config. Interactive prompts for:
 
@@ -45,7 +48,7 @@ Create or update a config. Interactive prompts for:
 - **Models** — comma or space separated list
 - **Default Model** — select from the list
 
-Re-running `cce init` with an existing name updates that config.
+Re-running `cce create` with an existing name updates that config.
 
 ### `cce <name> [flags]`
 
@@ -53,7 +56,7 @@ Launch `claude` with the named config's environment variables. All unknown flags
 
 ```bash
 cce glm
-cce glm --chat
+cce glm --name project-a --model glm-5.1
 ```
 
 ### `cce list`
@@ -82,6 +85,41 @@ Display a config's details (API key masked):
 ### `cce delete <name>`
 
 Remove a config. Prompts for confirmation.
+
+### `cce help`
+
+Show a nicely formatted overview of all commands and flags:
+
+```
+cce — Switch between multiple Claude Code configurations
+
+USAGE
+  cce <command> [options]
+
+COMMANDS
+  create           Create or update a config interactively
+  list             Display all saved configs in a table
+  show <name>      Display details for a specific config
+  delete <name>    Remove a config (asks for confirmation)
+  <name> [flags]   Launch claude with the named config
+  help             Show this help message
+
+GLOBAL FLAGS
+  --version  Show version number
+  --help     Show help for a specific command
+
+PASS-THROUGH FLAGS
+  When running cce <name>, any extra flags are forwarded to claude:
+  cce glm --chat --model glm-5.0
+
+EXAMPLES
+  cce create          Create a new config
+  cce list            Show all configs
+  cce show work       Show details of "work" config
+  cce delete work     Delete "work" config
+  cce glm             Launch claude with "glm" config
+  cce glm --model glm5.1      Launch claude with "glm" config + pass --model
+```
 
 ## Config Storage
 

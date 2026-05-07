@@ -1,9 +1,9 @@
 import * as p from '@clack/prompts';
 import { saveConfig, configExists } from '../config.js';
 
-export function registerInit(program) {
+export function registerCreate(program) {
   program
-    .command('init')
+    .command('create')
     .description('Create or update a config')
     .action(async () => {
       const s = p.spinner();

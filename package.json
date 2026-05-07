@@ -1,6 +1,6 @@
 {
-  "name": "cce",
-  "version": "0.1.0",
+  "name": "@dattranx/cce",
+  "version": "0.1.2",
   "description": "CLI to switch between multiple Claude Code configurations",
   "type": "module",
   "bin": {
@@ -23,5 +23,14 @@
   "dependencies": {
     "@clack/prompts": "^1.3.0",
     "commander": "^14.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tranvandat97/cce.git"
+  },
+  "author": "Dat Tran <trandat.hust@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/tranvandat97/cce/issues"
+  },
+  "homepage": "https://github.com/tranvandat97/cce#readme"
 }

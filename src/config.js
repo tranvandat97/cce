@@ -35,7 +35,7 @@ export function saveConfig(config) {
 export function loadConfig(name) {
   const data = readAll();
   const config = data.configs.find(c => c.name === name);
-  if (!config) throw new Error(`Config "${name}" not found. Run 'cce list' to see available configs.`);
+  if (!config) throw new Error(`Config "${name}" not found. Run 'cce help' to see available commands.`);
   return config;
 }
 

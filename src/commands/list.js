@@ -9,7 +9,7 @@ export function registerList(program) {
       const configs = listConfigs();
 
       if (configs.length === 0) {
-        p.log.info("No configs found. Run 'cce init' to create one.");
+        p.log.info("No configs found. Run 'cce create' to create one.");
         return;
       }
 

@@ -7,6 +7,10 @@ import { loadConfig } from '../config.js';
 
 const CLAUDE_SETTINGS_PATH = path.join(os.homedir(), '.claude', 'settings.json');
 
+const SHORTHANDS = {
+  '-sp': '--dangerously-skip-permissions',
+};
+
 function readClaudeSettings() {
   try {
     const raw = fs.readFileSync(CLAUDE_SETTINGS_PATH, 'utf-8');
@@ -18,15 +22,24 @@ function readClaudeSettings() {
 
 export function registerRun(program) {
   program
-    .argument('[name]', 'Config name to activate')
     .allowUnknownOption(true)
-    .action(async (name) => {
-      if (!name) {
+    .argument('[args...]')
+    .action(async () => {
+      const rawArgs = process.argv.slice(2);
+      if (rawArgs.length === 0) {
         program.help();
         return;
       }
 
-      const config = loadConfig(name);
+      const name = rawArgs[0];
+
+      let config;
+      try {
+        config = loadConfig(name);
+      } catch (err) {
+        p.log.error(err.message);
+        process.exit(1);
+      }
       const baseSettings = readClaudeSettings();
 
       const mergedSettings = {
@@ -39,8 +52,8 @@ export function registerRun(program) {
         },
       };
 
-      const rawArgs = process.argv.slice(2);
-      const claudeArgs = ['--settings', JSON.stringify(mergedSettings), ...rawArgs.slice(1)];
+      const passthroughArgs = rawArgs.slice(1).map(arg => SHORTHANDS[arg] || arg);
+      const claudeArgs = ['--settings', JSON.stringify(mergedSettings), ...passthroughArgs];
 
       const child = spawn('claude', claudeArgs, {
         stdio: 'inherit',
