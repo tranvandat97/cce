@@ -7,6 +7,7 @@ import { registerCreate } from '../src/commands/create.js';
 import { registerList } from '../src/commands/list.js';
 import { registerShow } from '../src/commands/show.js';
 import { registerDelete } from '../src/commands/delete.js';
+import { registerEdit } from '../src/commands/edit.js';
 import { registerRun } from '../src/commands/run.js';
 import { registerHelp } from '../src/commands/help.js';
 
@@ -25,6 +26,7 @@ registerCreate(program);
 registerList(program);
 registerShow(program);
 registerDelete(program);
+registerEdit(program);
 registerRun(program);
 registerHelp(program);
 

@@ -3,17 +3,18 @@ import { saveConfig, configExists } from '../config.js';
 
 export function registerCreate(program) {
   program
-    .command('create')
+    .command('create [name]')
     .description('Create or update a config')
-    .action(async () => {
+    .action(async (providedName) => {
       const s = p.spinner();
 
-      const name = await p.text({
+      const name = providedName ?? await p.text({
         message: 'Config name',
         placeholder: 'e.g, claude, glm',
         validate: v => (!v || !v.trim() ? 'Name is required' : undefined),
       });
       if (p.isCancel(name)) { p.cancel('Cancelled'); return; }
+      if (!name.trim()) { p.log.error('Name is required'); return; }
 
       const endpoint = await p.text({
         message: 'Endpoint URL',

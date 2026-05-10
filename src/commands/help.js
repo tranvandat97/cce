@@ -14,9 +14,10 @@ export function registerHelp(program) {
     .description('Show help for all commands')
     .action(() => {
       const cmds = [
-        { name: 'create', desc: 'Create or update a config interactively' },
+        { name: 'create [name]', desc: 'Create or update a config interactively' },
         { name: 'list', desc: 'Display all saved configs in a table' },
         { name: 'show <name>', desc: 'Display details for a specific config' },
+        { name: 'edit <name>', desc: 'Edit endpoint and API key for a config' },
         { name: 'delete <name>', desc: 'Remove a config (asks for confirmation)' },
         { name: '<name> [flags]', desc: 'Launch claude with the named config' },
         { name: 'help', desc: 'Show this help message' },
@@ -44,8 +45,10 @@ export function registerHelp(program) {
       console.log();
       console.log(`${B}EXAMPLES${RESET}`);
       console.log(`  ${GRAY}cce create${RESET}          Create a new config`);
+      console.log(`  ${GRAY}cce create glm${RESET}      Create or update "glm" config`);
       console.log(`  ${GRAY}cce list${RESET}            Show all configs`);
       console.log(`  ${GRAY}cce show work${RESET}       Show details of "work" config`);
+      console.log(`  ${GRAY}cce edit work${RESET}       Edit endpoint and API key for "work"`);
       console.log(`  ${GRAY}cce delete work${RESET}     Delete "work" config`);
       console.log(`  ${GRAY}cce glm${RESET}             Launch claude with "glm" config`);
       console.log(`  ${GRAY}cce glm --chat${RESET}      Launch claude with "glm" config + pass --chat`);

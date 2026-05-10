@@ -38,17 +38,28 @@ cce glm -sp
 
 ## Commands
 
-### `cce create`
+### `cce create [name]`
 
-Create or update a config. Interactive prompts for:
+Create or update a config. If `name` is provided, it is used as the profile name and the name prompt is skipped.
 
-- **Name** — e.g. `claude`, `glm`
+Interactive prompts for:
+
+- **Name** — e.g. `claude`, `glm` (only when not provided as an argument)
 - **Endpoint URL** — e.g. `https://api.anthropic.com`
 - **API Key** — hidden input
 - **Models** — comma or space separated list
 - **Default Model** — select from the list
 
 Re-running `cce create` with an existing name updates that config.
+
+```bash
+cce create
+cce create glm
+```
+
+### `cce edit <name>`
+
+Edit the endpoint URL and API key for an existing config. Models and default model are preserved.
 
 ### `cce <name> [flags]`
 
@@ -97,9 +108,10 @@ USAGE
   cce <command> [options]
 
 COMMANDS
-  create           Create or update a config interactively
+  create [name]    Create or update a config interactively
   list             Display all saved configs in a table
   show <name>      Display details for a specific config
+  edit <name>      Edit endpoint and API key for a config
   delete <name>    Remove a config (asks for confirmation)
   <name> [flags]   Launch claude with the named config
   help             Show this help message
@@ -114,8 +126,10 @@ PASS-THROUGH FLAGS
 
 EXAMPLES
   cce create          Create a new config
+  cce create glm      Create or update "glm" config
   cce list            Show all configs
   cce show work       Show details of "work" config
+  cce edit work       Edit endpoint and API key for "work"
   cce delete work     Delete "work" config
   cce glm             Launch claude with "glm" config
   cce glm --model glm5.1      Launch claude with "glm" config + pass --model
