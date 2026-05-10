@@ -6,6 +6,9 @@
   "bin": {
     "cce": "./bin/cce.js"
   },
+  "scripts": {
+    "test": "node --test"
+  },
   "engines": {
     "node": ">=18"
   },

@@ -3,12 +3,13 @@ import { saveConfig, configExists } from '../config.js';
 
 export function registerCreate(program) {
   program
-    .command('create')
+    .command('create [name]')
     .description('Create or update a config')
-    .action(async () => {
+    .option('--opencode', 'Create or update OpenCode settings')
+    .action(async (providedName, options) => {
       const s = p.spinner();
 
-      const name = await p.text({
+      const name = providedName || await p.text({
         message: 'Config name',
         placeholder: 'e.g, claude, glm',
         validate: v => (!v || !v.trim() ? 'Name is required' : undefined),
@@ -59,10 +60,12 @@ export function registerCreate(program) {
         defaultModel,
       };
 
-      const existed = configExists(config.name);
-      saveConfig(config);
+      const side = options.opencode ? 'opencode' : 'claude';
+      const label = options.opencode ? 'OpenCode' : 'Claude Code';
+      const existed = configExists(config.name, { side });
+      saveConfig(config, { side });
 
-      s.start(existed ? 'Updating config...' : 'Saving config...');
-      s.stop(existed ? `Config "${config.name}" updated` : `Config "${config.name}" created`);
+      s.start(existed ? `Updating ${label} config...` : `Saving ${label} config...`);
+      s.stop(existed ? `${label} config "${config.name}" updated` : `${label} config "${config.name}" created`);
     });
 }

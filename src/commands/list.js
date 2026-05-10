@@ -1,6 +1,10 @@
 import * as p from '@clack/prompts';
 import { listConfigs } from '../config.js';
 
+function modelFor(config, side) {
+  return config[side]?.defaultModel || '-';
+}
+
 export function registerList(program) {
   program
     .command('list')
@@ -13,15 +17,14 @@ export function registerList(program) {
         return;
       }
 
-      // Calculate column widths
       const nameW = Math.max(4, ...configs.map(c => c.name.length));
-      const endpointW = Math.max(8, ...configs.map(c => c.endpoint.length));
-      const modelW = Math.max(13, ...configs.map(c => c.defaultModel.length));
+      const claudeW = Math.max(17, ...configs.map(c => modelFor(c, 'claude').length));
+      const opencodeW = Math.max(14, ...configs.map(c => modelFor(c, 'opencode').length));
 
-      const header = `  ${'NAME'.padEnd(nameW)}  ${'ENDPOINT'.padEnd(endpointW)}  ${'DEFAULT MODEL'.padEnd(modelW)}`;
-      const sep = `  ${'-'.repeat(nameW)}  ${'-'.repeat(endpointW)}  ${'-'.repeat(modelW)}`;
+      const header = `  ${'NAME'.padEnd(nameW)}  ${'CLAUDE CODE MODEL'.padEnd(claudeW)}  ${'OPENCODE MODEL'.padEnd(opencodeW)}`;
+      const sep = `  ${'-'.repeat(nameW)}  ${'-'.repeat(claudeW)}  ${'-'.repeat(opencodeW)}`;
       const rows = configs.map(c =>
-        `  ${c.name.padEnd(nameW)}  ${c.endpoint.padEnd(endpointW)}  ${c.defaultModel}`
+        `  ${c.name.padEnd(nameW)}  ${modelFor(c, 'claude').padEnd(claudeW)}  ${modelFor(c, 'opencode')}`
       );
 
       console.log('\n' + header);
